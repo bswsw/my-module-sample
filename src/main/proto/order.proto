@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "dev.baesangwoo.mymodule.proto";
+option java_outer_classname = "CoffeeProto";
+
+package dev.baesangwoo.mymodule.proto;
+
+message OrderRequestProto {
+    string menu = 1;
+    int32 money = 2;
+}
+
+message OrderResponseProto {
+    string menu = 1;
+    int32 change = 2;
+}
+
+service Order {
+    rpc Buy (OrderRequestProto) returns (OrderResponseProto);
+}
