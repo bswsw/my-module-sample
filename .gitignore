@@ -29,4 +29,4 @@ out/
 
 ### Custom ###
 .DS_Store
-env.properties
+gradle.properties
