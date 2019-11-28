@@ -27,4 +27,6 @@ out/
 /nbdist/
 /.nb-gradle/
 
+### Custom ###
 .DS_Store
+env.properties
