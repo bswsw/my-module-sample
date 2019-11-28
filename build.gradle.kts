@@ -4,6 +4,8 @@ import com.google.protobuf.gradle.ofSourceSet
 import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
+import java.util.Properties
+import java.io.FileInputStream
 
 plugins {
     kotlin("jvm") version "1.3.61"
@@ -82,10 +84,15 @@ publishing {
 
     repositories {
         maven {
-            url = uri("http://localhost:8081/repository/maven-releases")
-            credentials {
-                username = "admin"
-                password = "password"
+            url = uri("s3://the-maven-repository/releases")
+
+            val props = Properties()
+            val propsFile = file("./env.properties")
+            props.load(FileInputStream(propsFile))
+
+            credentials(AwsCredentials::class) {
+                accessKey = props["AWS_ACCESS_KEY"].toString()
+                secretKey = props["AWS_SECRET_KEY"].toString()
             }
         }
     }
