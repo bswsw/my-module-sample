@@ -4,8 +4,9 @@ import com.google.protobuf.gradle.ofSourceSet
 import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
-import java.util.Properties
-import java.io.FileInputStream
+
+val protobufVersion by extra { "3.10.0" }
+val grpcVersion by extra { "1.25.0" }
 
 plugins {
     kotlin("jvm") version "1.3.61"
@@ -22,9 +23,6 @@ version = "0.0.1"
 repositories {
     mavenCentral()
 }
-
-val protobufVersion: String by project
-val grpcVersion: String by project
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
@@ -86,13 +84,12 @@ publishing {
         maven {
             url = uri("s3://the-maven-repository/releases")
 
-            val props = Properties()
-            val propsFile = file("./env.properties")
-            props.load(FileInputStream(propsFile))
+            val awsAccessKey: String by project
+            val awsSecretKey: String by project
 
             credentials(AwsCredentials::class) {
-                accessKey = props["AWS_ACCESS_KEY"].toString()
-                secretKey = props["AWS_SECRET_KEY"].toString()
+                accessKey = awsAccessKey
+                secretKey = awsSecretKey
             }
         }
     }
